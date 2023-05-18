@@ -387,24 +387,25 @@ int deleteNode(listNode* h, int key) {
 
 	listNode* p = h->rlink; // 현재노드 
 
-	while(p != NULL && p != h) {
-		if(p->key == key) {
-			if(p == h->rlink) {
+	while(p != NULL && p != h) { // 현재노드가 존재하거나 헤더노드가 아닐 경우 반복
+		if(p->key == key) { // 현재노드의 key값이 삽입할 key값과 동일한 경우
+			if(p == h->rlink) { // 현재노드가 첫 노드일 경우
 				deleteFirst(h);
 			}
-			else if (p->rlink == h){
-				deleteLast(h);
+			else if (p->rlink == h){ // 다음노드가 헤더노드일 경우(현재노드가 마지막 노드일 경우)
+				deleteLast(h); // 마지막 노드 삭제 함수
 			}
-			else {
-				p->llink->rlink = p->rlink;
-				p->rlink->llink = p->llink;
-				free(p);
+			else { // 중간에 위치한 노드일 경우
+				// 현재 노드를 삭제하기 위한 연결 수정
+				p->llink->rlink = p->rlink; 
+				p->rlink->llink = p->llink; 
+				free(p); // 현재노드에 대한 동적할당 해제
 			}
 			return 0;
 		}
-		p = p->rlink;
+		p = p->rlink; // 다음에 처리할 노드를 현재노드로 설정
 	}
 
-	printf("cannot find the node for key = %d\n", key);
+	printf("cannot find the node for key = %d\n", key); // key값을 가진 노드를 찾을 수 없음
 	return 0;	
 }
